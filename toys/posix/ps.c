@@ -48,7 +48,7 @@ USE_PS(NEWTOY(ps, "k(sort)*P(ppid)*aAdeflMno*O*p(pid)*s*t*Tu*U*g*G*wZ[!ol][+Ae]"
 USE_TOP(NEWTOY(top, ">0m" "Hk*o*p*u*s#<1=9d#=3<1n#<1bq", TOYFLAG_USR|TOYFLAG_BIN|TOYFLAG_LOCALE))
 USE_IOTOP(NEWTOY(iotop, ">0AaKO" "k*o*p*u*s#<1=7d#=3<1n#<1bq", TOYFLAG_USR|TOYFLAG_BIN|TOYFLAG_STAYROOT|TOYFLAG_LOCALE))
 USE_PGREP(NEWTOY(pgrep, "?cld:u*U*t*s*P*g*G*fnovxL:[-no]", TOYFLAG_USR|TOYFLAG_BIN))
-USE_PKILL(NEWTOY(pkill,     "Vu*U*t*s*P*g*G*fnovxl:[-no]", TOYFLAG_USR|TOYFLAG_BIN))
+USE_PKILL(NEWTOY(pkill,    "?Vu*U*t*s*P*g*G*fnovxl:[-no]", TOYFLAG_USR|TOYFLAG_BIN))
 
 config PS
   bool "ps"
@@ -183,11 +183,21 @@ config PGREP
     -L	Send SIGNAL instead of printing name
     -l	Show command name
 
+config PKILL
+  bool "pkill"
+  default y
+  depends on PGKILL_COMMON
+  help
+    usage: pkill [-SIGNAL|-l SIGNAL] [PATTERN]
+
+    -l	Send SIGNAL (default SIGTERM)
+    -V	verbose
+
 config PGKILL_COMMON
   bool
   default y
   help
-    usage: pgrep [-fnovx] [-G GID,] [-g PGRP,] [-P PPID,] [-s SID,] [-t TERM,] [-U UID,] [-u EUID,]
+    usage: * [-fnovx] [-G GID,] [-g PGRP,] [-P PPID,] [-s SID,] [-t TERM,] [-U UID,] [-u EUID,]
 
     -f	Check full command line for PATTERN
     -G	Match real Group ID(s)
@@ -201,15 +211,6 @@ config PGKILL_COMMON
     -u	Match effective User ID(s)
     -v	Negate the match
     -x	Match whole command (not substring)
-
-config PKILL
-  bool "pkill"
-  default y
-  help
-    usage: pkill [-l SIGNAL] [PATTERN]
-
-    -l	SIGNAL to send
-    -V	verbose
 */
 
 #define FOR_ps
@@ -1686,6 +1687,9 @@ void pgrep_main(void)
 
 void pkill_main(void)
 {
+  char **args = toys.optargs;
+
+  if (!(toys.optflags&FLAG_l) && *args && **args=='-') TT.pgrep.L = *(args++)+1;
   if (!TT.pgrep.L) TT.pgrep.signal = SIGTERM;
   if (toys.optflags & FLAG_V) TT.tty = 1;
   pgrep_main();
