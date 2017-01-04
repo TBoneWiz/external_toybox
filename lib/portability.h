@@ -47,6 +47,14 @@
 #define RLIMIT_RTTIME 15
 #endif
 
+// Introduced in Linux 3.1
+#ifndef SEEK_DATA
+#define SEEK_DATA 3
+#endif
+#ifndef SEEK_HOLE
+#define SEEK_HOLE 4
+#endif
+
 // We don't define GNU_dammit because we're not part of the gnu project, and
 // don't want to get any FSF on us. Unfortunately glibc (gnu libc)
 // won't give us Linux syscall wrappers without claiming to be part of the
