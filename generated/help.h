@@ -82,7 +82,7 @@
 
 #define HELP_hostname "usage: hostname [-b] [-F FILENAME] [newname]\n\nGet/Set the current hostname\n\n-b  Set hostname to 'localhost' if otherwise unset\n-F  Set hostname to contents of FILENAME\n\n"
 
-#define HELP_dmesg "usage: dmesg [-c] [-r|-t] [-n LEVEL] [-s SIZE]\n\nPrint or control the kernel ring buffer.\n\n-c	Clear the ring buffer after printing\n-n	Set kernel logging LEVEL (1-9)\n-r	Raw output (with <level markers>)\n-s	Show the last SIZE many bytes\n-t	Don't print kernel's timestamps\n\n"
+#define HELP_dmesg "usage: dmesg [-Cc] [-r|-t|-T] [-n LEVEL] [-s SIZE] [-Sw]\n\nPrint or control the kernel ring buffer.\n\n-C	Clear ring buffer without printing\n-c	Clear ring buffer after printing\n-n	Set kernel logging LEVEL (1-9)\n-r	Raw output (with <level markers>)\n-S	Use syslog(2) rather than /dev/kmsg\n-s	Show the last SIZE many bytes\n-T	Show human-readable timestamps\n-t	Don't print timestamps\n-w	Keep waiting for more output (aka --follow)\n\n"
 
 #define HELP_yes "usage: yes [args...]\n\nRepeatedly output line until killed. If no args, output 'y'.\n\n\n"
 

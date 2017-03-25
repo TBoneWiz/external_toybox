@@ -37,6 +37,7 @@ struct skeleton_data {
 struct dmesg_data {
   long level;
   long size;
+  time_t tea;
 };
 
 // toys/lsb/hostname.c
